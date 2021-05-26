@@ -7,7 +7,8 @@
  */
 public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
 {
-    private Map<V, K>[] table;
+    private Map<K, V>[] table;
+    private int size;
     public HashMap(int size)
     {
         table = new Map[size];
@@ -15,6 +16,7 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
         {
             table[i] = new LinkedMap();
         }
+        size = 0;
     }
 
     /**
@@ -22,7 +24,7 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public int size()
     {
-        return -1;
+        return size;
     }
 
     /**
@@ -30,7 +32,7 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -40,6 +42,16 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public boolean containsKey(K key)
     {
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
+        if(get(key)!= null)
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -49,6 +61,17 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public boolean containsValue(V value)
     {
+        if(value == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        for(Map<K, V> a : table)
+        {
+            if(a.containsValue(value))
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -59,6 +82,17 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public V get(K key)
     {
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        for(Map<K, V> a : table)
+        {
+            if(a.containsKey(key))
+            {
+                return a.get(key);
+            }
+        }
         return null;
     }
 
@@ -71,7 +105,17 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public V put(K key, V value)
     {
-        return null;
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        Map <K, V> a = table[hashIndex(key)];
+        V old = a.put(key, value);
+        if(old == null)
+        {
+            size++;
+        }
+        return old;
     }
 
     /**
@@ -82,7 +126,17 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public V remove(K key)
     {
-        return null;
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        Map<K, V> a = table[hashIndex(key)];
+        V old = a.remove(key);
+        if(old != null)
+        {
+            size--;
+        }
+        return old;
     }
 
     /**
@@ -91,11 +145,15 @@ public class HashMap<K, V> implements Map<K, V>, Hashable<K, V>
      */
     public void clear()
     {
-
+        for(int i = 0; i < table.length; i++)
+        {
+            table[i] = new LinkedMap();
+        }
+        size = 0;
     }
 
     public int hashIndex(K key)
     {
-        return -1;
+        return (key.hashCode() & 0x7fffffff) % table.length;
     }
 }
