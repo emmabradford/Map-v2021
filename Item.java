@@ -31,7 +31,8 @@ public class Item<K, V> implements MapItem <K, V>
     {
         return val;
     }
-
+    
+    //public 
     /**
      * Returns a string representing this MapItem.
      */
