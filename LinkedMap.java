@@ -7,12 +7,25 @@
  */
 public class LinkedMap<K, V> implements Map<K, V>
 {
+    private DoublyLinkedNode<K, V> front;
+    public LinkedMap()
+    {
+        front = null;
+    }
+
     /**
      * Returns the number of entries in this Map.
      */
     public int size()
     {
-        return -1;
+        DoublyLinkedNode<K, V> curr = front;
+        int size = 0;
+        while(curr != null)
+        {
+            size++;
+            curr = curr.getNext();
+        }
+        return size;
     }
 
     /**
@@ -20,7 +33,7 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public boolean isEmpty()
     {
-        return false;
+        return front == null;
     }
 
     /**
@@ -30,6 +43,20 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public boolean containsKey(K key)
     {
+
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        DoublyLinkedNode<K, V> curr = front;
+        while(curr != null)
+        {
+            if(key.equals(curr.getKey()))
+            {
+                return true;
+            }
+            curr = curr.getNext();
+        }
         return false;
     }
 
@@ -39,6 +66,19 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public boolean containsValue(V value)
     {
+        if(value == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        DoublyLinkedNode<K, V> curr = front;
+        while(curr != null)
+        {
+            if(value.equals(curr.getValue()))
+            {
+                return true;
+            }
+            curr = curr.getNext();
+        }
         return false;
     }
 
@@ -49,6 +89,19 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public V get(K key)
     {
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        DoublyLinkedNode<K, V> curr = front;
+        while(curr != null)
+        {
+            if(key.equals(curr.getKey()))
+            {
+                return curr.getValue();
+            }
+            curr = curr.getNext();
+        }
         return null;
     }
 
@@ -61,7 +114,17 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public V put(K key, V value)
     {
-        return null;
+        if(key == null || value == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        V temp = remove(key);
+        DoublyLinkedNode<K, V> newN = new MapNode(key, value,  null, front);
+        if(front != null)
+        {
+            front.setPrevious(newN);
+        }
+        return temp;
     }
 
     /**
@@ -72,6 +135,24 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public V remove(K key)
     {
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        DoublyLinkedNode<K, V> curr = front;
+        while(curr != null)
+        {
+            if(key.equals(curr.getKey()))
+            {
+                V temp = curr.getValue();
+                DoublyLinkedNode<K, V> prev = curr.getPrevious();
+                DoublyLinkedNode<K, V> next = curr.getNext();
+                prev.setNext(next);
+                next.setPrevious(prev);
+                return temp;
+            }
+            curr = curr.getNext();
+        }
         return null;
     }
 
@@ -81,6 +162,6 @@ public class LinkedMap<K, V> implements Map<K, V>
      */
     public void clear()
     {
-    
+        front = null;
     }
 }
