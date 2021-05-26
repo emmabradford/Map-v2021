@@ -7,12 +7,16 @@
  */
 public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
 {
-    
+    private K k;
+    private V v;
+    private DoublyLinkedNode<K, V> prev;
+    private DoublyLinkedNode<K, V> n;
     public MapNode(K key, V value, DoublyLinkedNode<K, V> previous, DoublyLinkedNode<K, V> next)
     {
         super(key, value);
     }
-   /**
+
+    /**
      * Returns the previous (upstream) node.
      */
     public DoublyLinkedNode<K, V> getPrevious()
@@ -25,7 +29,7 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public void setPrevious(DoublyLinkedNode<K, V> node)
     {
-        
+
     }
 
     /**
@@ -41,6 +45,6 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public void setNext(DoublyLinkedNode<K, V> node)
     {
-    
+
     }
 }
