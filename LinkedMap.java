@@ -124,6 +124,7 @@ public class LinkedMap<K, V> implements Map<K, V>
         {
             front.setPrevious(newN);
         }
+        front  = newN;
         return temp;
     }
 
@@ -145,10 +146,22 @@ public class LinkedMap<K, V> implements Map<K, V>
             if(key.equals(curr.getKey()))
             {
                 V temp = curr.getValue();
+
                 DoublyLinkedNode<K, V> prev = curr.getPrevious();
                 DoublyLinkedNode<K, V> next = curr.getNext();
-                prev.setNext(next);
-                next.setPrevious(prev);
+                if(prev == null)
+                {
+                    front = front.getNext();
+                }
+                else
+                {
+                    prev.setNext(next);
+                }
+                if(next != null)
+                {
+                    next.setPrevious(prev);
+                }
+                curr = null;
                 return temp;
             }
             curr = curr.getNext();
