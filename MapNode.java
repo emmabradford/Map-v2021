@@ -14,6 +14,8 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
     public MapNode(K key, V value, DoublyLinkedNode<K, V> previous, DoublyLinkedNode<K, V> next)
     {
         super(key, value);
+        prev = previous;
+        n = next;
     }
 
     /**
@@ -21,7 +23,7 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public DoublyLinkedNode<K, V> getPrevious()
     {
-        return null;
+        return prev;
     }
 
     /**
@@ -29,7 +31,7 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public void setPrevious(DoublyLinkedNode<K, V> node)
     {
-
+        prev = node;
     }
 
     /**
@@ -37,7 +39,7 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public DoublyLinkedNode<K, V> getNext()
     {
-        return null;
+        return n;
     }
 
     /**
@@ -45,6 +47,6 @@ public class MapNode<K, V> extends Item<K, V> implements DoublyLinkedNode<K, V>
      */
     public void setNext(DoublyLinkedNode<K, V> node)
     {
-
+        n = node;
     }
 }
